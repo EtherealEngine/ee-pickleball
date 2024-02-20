@@ -1,0 +1,32 @@
+{
+  "name": "ee-pickleball",
+  "version": "0.0.0",
+  "description": "",
+  "main": "",
+  "etherealEngine": {
+    "version": "1.5.0"
+  },
+  "scripts": {
+    "test": "exit 0",
+    "check-errors": "tsc --noemit",
+    "format": "prettier --write \"**/*.{ts,tsx}\"",
+    "format-scss": "stylelint \"**/*.scss\" --fix",
+    "format-staged": "lint-staged",
+    "precommit": "no-master-commits -b main"
+  },
+  "peerDependencies": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "license": "ISC",
+  "pre-commit": [
+    "format-staged"
+  ],
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "prettier --write"
+    ],
+    "*.scss": [
+      "stylelint --fix"
+    ]
+  }
+}
