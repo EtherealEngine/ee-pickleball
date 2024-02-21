@@ -378,9 +378,9 @@
           "name": "transform",
           "props": {
             "position": {
-              "x": 0,
+              "x": -2,
               "y": 0,
-              "z": 0
+              "z": 7
             },
             "rotation": {
               "x": -5.053215498074303e-16,
@@ -396,14 +396,14 @@
           }
         },
         {
-          "name": "visible",
-          "props": {}
-        },
-        {
           "name": "spawn-point",
           "props": {
             "permissionedUsers": []
           }
+        },
+        {
+          "name": "visible",
+          "props": true
         }
       ],
       "parent": "d32b1c4e-d08e-4fb0-9107-4c88a281ee71",
