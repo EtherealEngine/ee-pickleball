@@ -1,26 +1,24 @@
-import { EntityUUID } from '@etherealengine/common/src/interfaces/EntityUUID'
+import multiLogger from '@etherealengine/common/src/logger'
 import { UserID } from '@etherealengine/common/src/schema.type.module'
+import { EntityUUID, matchesEntityUUID } from '@etherealengine/ecs'
+import { Engine } from '@etherealengine/ecs/src/Engine'
+import { SceneState } from '@etherealengine/engine/src/scene/Scene'
 import {
   defineAction,
   defineState,
   dispatchAction,
   getMutableState,
+  matches,
+  matchesUserId,
   none,
   useHookstate
 } from '@etherealengine/hyperflux'
-import { matches, matchesEntityUUID, matchesUserId } from '@etherealengine/spatial/src/common/functions/MatchesUtils'
-import { NetworkTopics } from '@etherealengine/spatial/src/networking/classes/Network'
+import { NetworkTopics, WorldNetworkAction } from '@etherealengine/network'
 import React, { useEffect } from 'react'
-
-import './PickleballComponent'
-// import './PlateComponent'
-
-import multiLogger from '@etherealengine/common/src/logger'
-import { Engine } from '@etherealengine/ecs/src/Engine'
-import { SceneState } from '@etherealengine/engine/src/scene/Scene'
-import { WorldNetworkAction } from '@etherealengine/spatial/src/networking/functions/WorldNetworkAction'
 import { PaddleActions } from './PaddleState'
+import './PickleballComponent'
 import { spawnBall } from './PickleballPhysicsSystem'
+import { SpawnObjectActions } from '@etherealengine/spatial/src/transform/SpawnObjectActions'
 
 const logger = multiLogger.child({ component: 'PickleballSystem' })
 
@@ -53,7 +51,7 @@ export class PickleballActions {
   })
 
   static spawnBall = defineAction({
-    ...WorldNetworkAction.spawnObject.actionShape,
+    ...SpawnObjectActions.spawnObject.actionShape,
     prefab: 'ee-pickleball.ball',
     gameEntityUUID: matchesEntityUUID,
     $topic: NetworkTopics.world
@@ -108,7 +106,7 @@ export const PickleballState = defineState({
       const state = getMutableState(PickleballState)
       state[action.gameEntityUUID].ball.set(action.entityUUID)
     }),
-    onDestroyBall: WorldNetworkAction.destroyObject.receive((action) => {
+    onDestroyBall: WorldNetworkAction.destroyEntity.receive((action) => {
       const state = getMutableState(PickleballState)
       for (const gameUUID of state.keys) {
         const game = state[gameUUID as EntityUUID]
@@ -174,12 +172,12 @@ const PlayerReactor = (props: { playerIndex: number; gameUUID: EntityUUID }) => 
       logger.info(`Player ${props.playerIndex} disconnected`)
 
       dispatchAction(
-        WorldNetworkAction.destroyObject({
+        WorldNetworkAction.destroyEntity({
           entityUUID: (userID + '_paddle_left') as EntityUUID
         })
       )
       dispatchAction(
-        WorldNetworkAction.destroyObject({
+        WorldNetworkAction.destroyEntity({
           entityUUID: (userID + '_paddle_right') as EntityUUID
         })
       )

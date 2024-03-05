@@ -1,13 +1,18 @@
-import { EntityUUID } from '@etherealengine/common/src/interfaces/EntityUUID'
-import { dispatchAction, getState } from '@etherealengine/hyperflux'
-import { setCallback } from '@etherealengine/spatial/src/common/CallbackComponent'
-
 import { UserID } from '@etherealengine/common/src/schema.type.module'
 import { isClient } from '@etherealengine/common/src/utils/getEnvironment'
-import { UndefinedEntity, defineComponent, getComponent, hasComponent, useEntityContext } from '@etherealengine/ecs'
+import {
+  EntityUUID,
+  UndefinedEntity,
+  defineComponent,
+  getComponent,
+  hasComponent,
+  useEntityContext
+} from '@etherealengine/ecs'
 import { AvatarComponent } from '@etherealengine/engine/src/avatar/components/AvatarComponent'
+import { dispatchAction, getState } from '@etherealengine/hyperflux'
+import { UUIDComponent } from '@etherealengine/network'
+import { setCallback } from '@etherealengine/spatial/src/common/CallbackComponent'
 import { NameComponent } from '@etherealengine/spatial/src/common/NameComponent'
-import { UUIDComponent } from '@etherealengine/spatial/src/common/UUIDComponent'
 import { traverseEntityNodeParent } from '@etherealengine/spatial/src/transform/components/EntityTree'
 import { useEffect } from 'react'
 import { PickleballComponent } from './PickleballComponent'

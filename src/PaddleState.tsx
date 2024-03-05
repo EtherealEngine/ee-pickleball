@@ -1,32 +1,31 @@
-import { EntityUUID } from '@etherealengine/common/src/interfaces/EntityUUID'
 import { UserID } from '@etherealengine/common/src/schema.type.module'
 import {
   defineAction,
   defineState,
   dispatchAction,
   getMutableState,
+  matches,
+  matchesUserId,
   none,
   useHookstate
 } from '@etherealengine/hyperflux'
-import { matches, matchesEntityUUID, matchesUserId } from '@etherealengine/spatial/src/common/functions/MatchesUtils'
-import { NetworkTopics } from '@etherealengine/spatial/src/networking/classes/Network'
 import React, { useEffect } from 'react'
 
-import { getComponent, setComponent } from '@etherealengine/ecs'
+import { EntityUUID, getComponent, matchesEntityUUID, setComponent } from '@etherealengine/ecs'
 import {
   GrabbableComponent,
   GrabbedComponent
 } from '@etherealengine/engine/src/interaction/components/GrabbableComponent'
 import { GrabbableNetworkAction } from '@etherealengine/engine/src/interaction/systems/GrabbableSystem'
 import { PrimitiveGeometryComponent } from '@etherealengine/engine/src/scene/components/PrimitiveGeometryComponent'
+import { NetworkTopics, UUIDComponent, WorldNetworkAction } from '@etherealengine/network'
 import { NameComponent } from '@etherealengine/spatial/src/common/NameComponent'
-import { UUIDComponent } from '@etherealengine/spatial/src/common/UUIDComponent'
-import { WorldNetworkAction } from '@etherealengine/spatial/src/networking/functions/WorldNetworkAction'
 import { ColliderComponent } from '@etherealengine/spatial/src/physics/components/ColliderComponent'
 import { RigidBodyComponent } from '@etherealengine/spatial/src/physics/components/RigidBodyComponent'
 import { CollisionGroups } from '@etherealengine/spatial/src/physics/enums/CollisionGroups'
 import { BodyTypes } from '@etherealengine/spatial/src/physics/types/PhysicsTypes'
 import { VisibleComponent } from '@etherealengine/spatial/src/renderer/components/VisibleComponent'
+import { SpawnObjectActions } from '@etherealengine/spatial/src/transform/SpawnObjectActions'
 import {
   DistanceFromCameraComponent,
   FrustumCullCameraComponent
@@ -40,7 +39,7 @@ export enum PickleballCollisionGroups {
 
 export class PaddleActions {
   static spawnPaddle = defineAction({
-    ...WorldNetworkAction.spawnObject.actionShape,
+    ...SpawnObjectActions.spawnObject.actionShape,
     prefab: 'ee-pickleball.paddle',
     gameEntityUUID: matchesEntityUUID,
     handedness: matches.literals('left', 'right'),
@@ -69,7 +68,7 @@ export const PaddleState = defineState({
         gameEntityUUID: action.gameEntityUUID
       })
     }),
-    onDestroyPaddle: WorldNetworkAction.destroyObject.receive((action) => {
+    onDestroyPaddle: WorldNetworkAction.destroyEntity.receive((action) => {
       const state = getMutableState(PaddleState)
       state[action.entityUUID].set(none)
     })
