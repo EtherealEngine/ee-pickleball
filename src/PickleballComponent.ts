@@ -1,6 +1,6 @@
 import { defineComponent, getComponent, useEntityContext } from '@etherealengine/ecs'
 import { dispatchAction, getState } from '@etherealengine/hyperflux'
-import { UUIDComponent } from '@etherealengine/network'
+import { UUIDComponent } from '@etherealengine/ecs'
 import { EngineState } from '@etherealengine/spatial/src/EngineState'
 import { useEffect } from 'react'
 import { PickleballActions } from './PickleballGameState'

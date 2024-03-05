@@ -10,7 +10,7 @@ import {
 } from '@etherealengine/ecs'
 import { AvatarComponent } from '@etherealengine/engine/src/avatar/components/AvatarComponent'
 import { dispatchAction, getState } from '@etherealengine/hyperflux'
-import { UUIDComponent } from '@etherealengine/network'
+import { UUIDComponent } from '@etherealengine/ecs'
 import { setCallback } from '@etherealengine/spatial/src/common/CallbackComponent'
 import { NameComponent } from '@etherealengine/spatial/src/common/NameComponent'
 import { traverseEntityNodeParent } from '@etherealengine/spatial/src/transform/components/EntityTree'

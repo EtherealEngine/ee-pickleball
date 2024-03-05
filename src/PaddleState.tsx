@@ -1,4 +1,11 @@
 import { UserID } from '@etherealengine/common/src/schema.type.module'
+import { EntityUUID, UUIDComponent, getComponent, matchesEntityUUID, setComponent } from '@etherealengine/ecs'
+import {
+  GrabbableComponent,
+  GrabbedComponent
+} from '@etherealengine/engine/src/interaction/components/GrabbableComponent'
+import { GrabbableNetworkAction } from '@etherealengine/engine/src/interaction/systems/GrabbableSystem'
+import { PrimitiveGeometryComponent } from '@etherealengine/engine/src/scene/components/PrimitiveGeometryComponent'
 import {
   defineAction,
   defineState,
@@ -9,16 +16,7 @@ import {
   none,
   useHookstate
 } from '@etherealengine/hyperflux'
-import React, { useEffect } from 'react'
-
-import { EntityUUID, getComponent, matchesEntityUUID, setComponent } from '@etherealengine/ecs'
-import {
-  GrabbableComponent,
-  GrabbedComponent
-} from '@etherealengine/engine/src/interaction/components/GrabbableComponent'
-import { GrabbableNetworkAction } from '@etherealengine/engine/src/interaction/systems/GrabbableSystem'
-import { PrimitiveGeometryComponent } from '@etherealengine/engine/src/scene/components/PrimitiveGeometryComponent'
-import { NetworkTopics, UUIDComponent, WorldNetworkAction } from '@etherealengine/network'
+import { NetworkTopics, WorldNetworkAction } from '@etherealengine/network'
 import { NameComponent } from '@etherealengine/spatial/src/common/NameComponent'
 import { ColliderComponent } from '@etherealengine/spatial/src/physics/components/ColliderComponent'
 import { RigidBodyComponent } from '@etherealengine/spatial/src/physics/components/RigidBodyComponent'
@@ -31,6 +29,7 @@ import {
   FrustumCullCameraComponent
 } from '@etherealengine/spatial/src/transform/components/DistanceComponents'
 import { TransformComponent } from '@etherealengine/spatial/src/transform/components/TransformComponent'
+import React, { useEffect } from 'react'
 import { Vector3 } from 'three'
 
 export enum PickleballCollisionGroups {
